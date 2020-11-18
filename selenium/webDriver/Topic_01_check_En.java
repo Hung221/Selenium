@@ -18,14 +18,16 @@ public class Topic_01_check_En {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-		driver.get("http://demo.guru99.com/v4/");
+		driver.get("http://live.demoguru99.com/index.ph/");
 	}
 
 	@Test
 	public void TC_01_ValidateCurrentUrl() {
 		// Login Page Url matching
 		String loginPageUrl = driver.getCurrentUrl();
-		Assert.assertEquals(loginPageUrl, "http://demo.guru99.com/v4/");
+		Assert.assertEquals(loginPageUrl, "http://live.demoguru99.com/index.php");
+		// Assert True, False, Equals (Kiem tra message voi Equals)
+		//Assert.assertEquals(driver.findElemen(By.id("advice-validate-password")).getText(),"Please enter 6 or more");
 	}
 
 	@Test
