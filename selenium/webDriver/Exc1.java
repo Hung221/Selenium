@@ -5,9 +5,9 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,7 +19,7 @@ public class Exc1 {
 	WebDriver driver;
 	Random rand = new Random();
 	String Em;
-	String Text;
+	
 	
 	@BeforeClass
 	public void beforeCla() {
@@ -64,13 +64,24 @@ public class Exc1 {
 		driver.findElement(By.id("confirmation")).sendKeys("123456");
 		driver.findElement(By.cssSelector("button[title='Register']")).click();
 		AssertJUnit.assertEquals(driver.findElement(By.xpath("//li[@class=\"success-msg\"]//span")).getText(), "Thank you for registering with Main Website Store.");
-		Text = driver.findElement(By.xpath("//h3[text()=\'Contact Information\']/parent::div/following-sibling::div/p")).getText();
-		System.out.println(Text);
+		String Text = driver.findElement(By.xpath("//h3[text()=\'Contact Information\']/parent::div/following-sibling::div/p")).getText();
+		Assert.assertTrue(Text.contains("abc"));
+		Assert.assertTrue(Text.contains("def"));
+		Assert.assertTrue(Text.contains(Em));
+		driver.findElement(By.xpath("//span[text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
+		//a[href$=".pdf"]	Selects every <a> element whose href attribute value ends with ".pdf"
+		driver.findElement(By.cssSelector("img[src$='logo.png']")).isDisplayed();
+		//String tit =driver.getTitle();
+		//System.out.println(tit);
+		//Assert.assertTrue(tit.contains("Magento Commerce"));
+		
+		
 	}
 	@AfterClass
 	public void After() {
 		driver.quit();
-	
 		
 	}
 }
