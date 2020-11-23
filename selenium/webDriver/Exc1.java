@@ -19,6 +19,7 @@ public class Exc1 {
 	WebDriver driver;
 	Random rand = new Random();
 	String Em;
+	String passw = "123456";
 	
 	
 	@BeforeClass
@@ -58,7 +59,7 @@ public class Exc1 {
 		driver.findElement(By.xpath("//div[@class=\"col-1 new-users\"]//a")).click();
 		driver.findElement(By.id("firstname")).sendKeys("abc");
 		driver.findElement(By.id("lastname")).sendKeys("def");
-		Em = "automation" + rand.nextInt(9999) + "@gmail.com";
+		Em = "automation" + rand.nextInt(99999) + "@gmail.com";
 		driver.findElement(By.id("email_address")).sendKeys(Em);
 		driver.findElement(By.id("password")).sendKeys("123456");
 		driver.findElement(By.id("confirmation")).sendKeys("123456");
@@ -76,9 +77,26 @@ public class Exc1 {
 		//String tit =driver.getTitle();
 		//System.out.println(tit);
 		//Assert.assertTrue(tit.contains("Magento Commerce"));
+	}
+		
+	@Test 
+	public void Testcase6() {
+		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+		driver.findElement(By.id("email")).sendKeys(Em);
+		driver.findElement(By.id("pass")).sendKeys(passw);
+		driver.findElement(By.id("send2")).click();
+		String Dashb = driver.findElement(By.xpath("//h1[text()='My Dashboard']")).getText();
+		System.out.println(Dashb);
+		Assert.assertTrue(Dashb.contains ("MY DASHBOARD"));
+		
+		String Dashb2 = driver.findElement(By.xpath("//p[@class='hello']")).getText();
+		System.out.println(Dashb2);
+		Assert.assertTrue(Dashb2.contains ("abc def"));
 		
 		
 	}
+		
+	
 	@AfterClass
 	public void After() {
 		driver.quit();
