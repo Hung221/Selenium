@@ -17,7 +17,7 @@ public class TextBox_and_TextArea {
 	// Text box ko co xuong dong
 	// Get value text by attribute "value"
 	// \n: la xuong dong \t: tab
-	// text box is disable --> remove disable by JS --> send key--> Expected: should NOT submit sucess
+	// text box is disable --> remove disable by JS --> send key--> Expected: should NOT submit success
 	// chan quang cao bang cach add vao host in drivers
 	// collaps and expand code setting in Windows --> ..--> Keys
 	//Editor clone de chia 2 man hinh eclips
