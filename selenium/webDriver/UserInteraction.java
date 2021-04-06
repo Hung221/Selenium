@@ -1,5 +1,9 @@
 package webDriver;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +25,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
 import netscape.javascript.JSException;
 
 public class UserInteraction {
@@ -47,7 +50,7 @@ public class UserInteraction {
 		WebElement Hover1 = driver.findElement(By.id("age"));
 		SleepInSecond(3);
 		action.moveToElement(Hover1).perform();
-		Assert.assertTrue(driver.findElement(By.cssSelector(".ui-tooltip-content")).isDisplayed());
+		AssertJUnit.assertTrue(driver.findElement(By.cssSelector(".ui-tooltip-content")).isDisplayed());
 		
 	}
 	
@@ -59,7 +62,7 @@ public class UserInteraction {
 		driver.findElement(By.xpath("//a[text()='Home & Bath']")).click();
 		String a = driver.getTitle();
 		System.out.println(a);
-		Assert.assertEquals("Kids Home Bath - Buy Kids Home Bath online in India", a);
+		AssertJUnit.assertEquals("Kids Home Bath - Buy Kids Home Bath online in India", a);
 	}
 	
 	public void HoverTest3() {
@@ -68,9 +71,8 @@ public class UserInteraction {
 		WebElement Hover3 = driver.findElement(By.xpath("//div[@class='cdz-main-menu left-navigation hidden-xs']//span[text()='Bánh kẹo']"));
 		action.moveToElement(Hover3).perform();
 		SleepInSecond(3);
-		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='cdz-main-menu left-navigation hidden-xs']//ul[@class='groupdrop-link']//a[text()='Lương khô']")).isDisplayed());
+		AssertJUnit.assertTrue(driver.findElement(By.xpath("//div[@class='cdz-main-menu left-navigation hidden-xs']//ul[@class='groupdrop-link']//a[text()='Lương khô']")).isDisplayed());
 		//driver.findElement(By.xpath("//a[text()='Home & Bath']")).click();
-
 	}
 
 	public void TestCaseClickAndHold() {
@@ -80,7 +82,7 @@ public class UserInteraction {
 		WebElement Number4 = driver.findElement(By.xpath("//li[text()='4']"));
 		action.clickAndHold(Number1).moveToElement(Number4).release().perform();
 		// Verify 4 number is selected 
-		Assert.assertEquals(4, driver.findElements(By.xpath("//li[@class= 'ui-state-default ui-selectee ui-selected']")).size()); 
+		AssertJUnit.assertEquals(4, driver.findElements(By.xpath("//li[@class= 'ui-state-default ui-selectee ui-selected']")).size()); 
 	}
 
 	public void TestCaseClickRandom() {
@@ -97,7 +99,7 @@ public class UserInteraction {
 		action.keyDown(Keys.CONTROL).perform();
 		
 		// Verify 4 number is selected 
-		Assert.assertEquals(4, driver.findElements(By.xpath("//li[@class= 'ui-state-default ui-selectee ui-selected']")).size()); 
+		AssertJUnit.assertEquals(4, driver.findElements(By.xpath("//li[@class= 'ui-state-default ui-selectee ui-selected']")).size()); 
 	}
 	
 	public void TestDoubleClick() {
@@ -107,7 +109,7 @@ public class UserInteraction {
 		SleepInSecond(2);
 		// The text will show
 		String textDis = driver.findElement(By.xpath("//div[@class='container']//button[text()='Double click me']/following-sibling::p[text()='Hello Automation Guys!']")).getText();
-		Assert.assertEquals("Hello Automation Guys!", textDis);
+		AssertJUnit.assertEquals("Hello Automation Guys!", textDis);
 	}
 	
 	public void RightClick() {
@@ -123,7 +125,7 @@ public class UserInteraction {
 				action.click(driver.findElement(By.cssSelector(".context-menu-icon-quit"))).perform();;
 				SleepInSecond(2);
 				driver.switchTo().alert().accept();
-				Assert.assertFalse(QuitOption.isDisplayed());
+				AssertJUnit.assertFalse(QuitOption.isDisplayed());
 			}
 		}
 		else {
@@ -141,10 +143,10 @@ public class UserInteraction {
 		WebElement Drop = driver.findElement(By.cssSelector("#draggable"));
 		action.dragAndDrop(Drag, Drop).perform();
 		//Verify Message 
-		Assert.assertTrue(driver.findElement(By.xpath("//div[text()='You did great!']")).isDisplayed());
+		AssertJUnit.assertTrue(driver.findElement(By.xpath("//div[text()='You did great!']")).isDisplayed());
 		//RGBA sang Hex corlor
 		//Assert.assertEquals(Drop.getCssValue("background-color"), "#03a9f4");
-		Assert.assertEquals(Drop.getCssValue("background-color"), "rgb(3,169,244)");
+		AssertJUnit.assertEquals(Drop.getCssValue("background-color"), "rgb(3,169,244)");
 		
 	}
 	@Test
@@ -165,10 +167,10 @@ public class UserInteraction {
 		// Nhung JS
 		JsExecutor.executeScript(jsContent);
 		SleepInSecond(3);
-		Assert.assertTrue(isElementDisplayed("//div[@id='column-a']/header[text()='B']"));
+		AssertJUnit.assertTrue(isElementDisplayed("//div[@id='column-a']/header[text()='B']"));
 		JsExecutor.executeScript(jsContent);
 		SleepInSecond(3);
-		Assert.assertTrue(isElementDisplayed("//div[@id='column-a']/header[text()='A']"));
+		AssertJUnit.assertTrue(isElementDisplayed("//div[@id='column-a']/header[text()='A']"));
 	}
 	public boolean isElementDisplayed(String locator) {
 		
