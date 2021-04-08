@@ -1,9 +1,7 @@
 package webDriver;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -14,10 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import junit.framework.Assert;
-
-import org.testng.AssertJUnit;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 public class Iframe_WindowsTab {
 	WebDriver driver;
@@ -32,15 +27,15 @@ public class Iframe_WindowsTab {
 		explicitWait = new WebDriverWait(driver, 10);
 				
 	}
-	@Test 
+	 
 	public void TestCase1_Frame_IFrame() {
 		driver.get("https://kyna.vn/");
 		WebElement FbIframe = driver.findElement(By.xpath("//iframe[contains(@src,'facebook.com')]"));
 		driver.switchTo().frame(FbIframe);
-		// Veerify Likes
+		// Verify Likes
 		WebElement Like = driver.findElement(By.xpath("//a[@title='Kyna.vn']/parent::div/following-sibling::div"));
 		//26k likes displayed
-		AssertJUnit.assertTrue(Like.isDisplayed());
+		Assert.assertTrue(Like.isDisplayed());
 		// switch to default before 
 		driver.switchTo().defaultContent();
 		SleepInSecond(2);
@@ -74,6 +69,52 @@ public class Iframe_WindowsTab {
 		}
 		SleepInSecond(3);
 	}
+	@Test
+	public void WindowsTabHandle() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		String parentWindows = driver.getWindowHandle();
+		driver.findElement(By.xpath("//a[text()='GOOGLE']")).click();
+		switchtoWindowsTab("Google");
+		Assert.assertTrue(driver.getTitle().equals("Google"));
+		driver.switchTo().window(parentWindows);
+		driver.findElement(By.xpath("//a[text()='FACEBOOK']")).click();
+		switchtoWindowsTab("Facebook");
+		Assert.assertTrue(driver.getTitle().equals("Facebook - Đăng nhập hoặc đăng ký"));
+		CloseAllWindowsWithoutParent(parentWindows);
+		
+	}
+	// Switch to another windows by title
+	public void switchtoWindowsTab(String title) {
+		//get all title and save as Set contains Strings
+		Set<String> AllWindows = driver.getWindowHandles();
+		for (String EachWindow:AllWindows) {
+			driver.switchTo().window(EachWindow);
+			String currentTitle = driver.getTitle();
+			if (currentTitle.equals(title)) {
+				break;
+			}
+		}
+	}
+	// Close all Windows without parent 
+	public boolean CloseAllWindowsWithoutParent (String ParentWindowID) {
+		Set<String> AllWindows = driver.getWindowHandles();
+		for (String eachWindow:AllWindows) {
+			if (!eachWindow.equals(ParentWindowID)) {
+				driver.switchTo().window(eachWindow);
+				driver.close();
+				SleepInSecond(3);
+			}
+			
+		driver.switchTo().window(ParentWindowID);
+		}// notice in case It did note return boonl
+		if (driver.getWindowHandles().size()==1) 
+			return true;
+		
+		else 
+			return false;
+		
+	}
+	
 	public void SleepInSecond(long Seconds) {
 		try {
 			Thread.sleep(Seconds * 1000);
