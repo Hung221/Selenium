@@ -1,5 +1,8 @@
 package webDriver;
 
+import java.util.Random;
+
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +30,31 @@ public class JE {
 	}
 	@Test
 	public void TestJE() {
-		
+		navigateToUrlByJS(driver, "http://live.demoguru99.com/");
+		sleepInSecond(2);
+		String domain = (String) executeForBrowser(driver, "return document.domain");
+		Assert.assertEquals("live.demoguru99.com", domain);
+		String url = (String) executeForBrowser(driver, "return document.URL");
+		Assert.assertEquals("http://live.demoguru99.com/", url);
+		clickToElementByJS(driver, "//a[text()='Mobile']");
+		sleepInSecond(2);
+		clickToElementByJS(driver, "//a[text()='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//span");
+		sleepInSecond(2);
+		String expected = "Samsung Galaxy was added to your shopping cart.";
+		Assert.assertTrue(getInnerText(driver).contains(expected));
+		clickToElementByJS(driver, "//a[text()='Customer Service']");
+		String titleCustomerService = (String)executeForBrowser(driver, "return document.title");
+		Assert.assertEquals("Customer Service", titleCustomerService);
+		scrollToBottomPage(driver);
+		String Email = randomEmail();
+		sendkeyToElementByJS(driver, "//input[@id='newsletter']", Email);
+		clickToElementByJS(driver, "//button[@title='Subscribe']");
+		sleepInSecond(2);
+		String expected2 = "Thank you for your subscription.";
+		Assert.assertTrue(getInnerText(driver).contains(expected2));
+		navigateToUrlByJS(driver, "http://demo.guru99.com/v4/");
+		String domain2 = (String) executeForBrowser(driver, "return document.domain");
+		Assert.assertEquals("demo.guru99.com", domain2);
 	}
 	public Object executeForBrowser(WebDriver driver, String javaScript) {
 		jsExecutor = (JavascriptExecutor) driver;
@@ -43,6 +70,11 @@ public class JE {
 		jsExecutor = (JavascriptExecutor) driver;
 		String textActual = (String) jsExecutor.executeScript("return document.documentElement.innerText.match('" + textExpected + "')[0]");
 		return textActual.equals(textExpected);
+	}
+	public String getInInnerText(WebDriver driver, String textExpected) {
+		jsExecutor = (JavascriptExecutor) driver;
+		String textActual = (String) jsExecutor.executeScript("return document.documentElement.innerText");
+		return textActual;
 	}
 
 	public void scrollToBottomPage(WebDriver driver) {
@@ -134,6 +166,11 @@ public class JE {
 	public WebElement getElement (WebDriver driver ,String XpathLocator) {
 		WebElement Element = driver.findElement(By.xpath(XpathLocator));
 		return Element;
+	}
+	public String randomEmail() {
+		Random rand = new Random();
+		String emailR = "automation" + rand.nextInt(999) + "@gmail.com";
+		return emailR;
 	}
 	
 	@AfterClass
