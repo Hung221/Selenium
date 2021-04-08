@@ -55,6 +55,7 @@ public class JE {
 		navigateToUrlByJS(driver, "http://demo.guru99.com/v4/");
 		String domain2 = (String) executeForBrowser(driver, "return document.domain");
 		Assert.assertEquals("demo.guru99.com", domain2);
+		// abc
 	}
 	public Object executeForBrowser(WebDriver driver, String javaScript) {
 		jsExecutor = (JavascriptExecutor) driver;
